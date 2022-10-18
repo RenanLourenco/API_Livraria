@@ -22,6 +22,37 @@ class LivroController {
         })
     }
 
+    static atualizarLivro = (req,res)=>{
+        const id = req.params.id
+        
+        livros.findByIdAndUpdate(id, {$set: req.body},(err) => {
+            if(!err){
+                res.status(200).send({message:"livro atualizado com sucesso"})
+            }else{
+                res.status(500).send({message:"ERRO AO ATUALIZAR" + err.message})
+            }
+        })
+
+    }
+
+
+    static listarLivroPorId = (req,res)=>{
+        const id = req.params.id
+
+        livros.findById(id,(err,livros)=>{
+            if(err){
+                res.status(400).send({message:`${err} id nao encontrado`})
+            }else{
+                res.status(200).send(livros)
+            }
+
+
+        })
+    }
+
+
+
+
 }
 
 
