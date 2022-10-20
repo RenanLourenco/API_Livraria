@@ -6,6 +6,7 @@ class LivroController {
     static listarLivros = (req,res)=>{
         livros.find()
             .populate('autor')
+            .populate('editora')
             .exec((err,livros)=>{
             res.status(200).json(livros)
         })
@@ -44,14 +45,13 @@ class LivroController {
 
         livros.findById(id)
         .populate('autor','nome')
+        .populate('editora','nome')
         .exec((err,livros)=>{
             if(err){
                 res.status(400).send({message:`${err} id nao encontrado`})
             }else{
                 res.status(200).send(livros)
             }
-
-
         })
     }
 
@@ -67,9 +67,21 @@ class LivroController {
         })
     }
 
+    static listarLivroPorEditora = (req,res)=>{
+        const editora = req.query.editora
 
+        livros.find({"editora":editora},{})
+        .populate('autor')
+        .populate('editora')
+        .exec((err,livros)=>{
+            if(err){
+                res.status(400).send({message:'Livro nao encontrado'})
+            }else{
+                res.status(200).send(livros)
+            }
+        })
 
-
+    }
 
 }
 

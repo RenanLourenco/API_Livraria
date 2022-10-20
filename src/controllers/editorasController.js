@@ -32,6 +32,30 @@ class EditoraController {
         })
     }
 
+    static listarEditoraPorId = (req,res)=>{
+        const id = req.params.id
+
+        editoras.findById(id,(err)=>{
+            if(err){
+                res.status(400).send({message:`Editora nao encontrada ${err.message}`})
+            }else{
+                res.status(400).json(editoras)
+            }
+        })
+    }
     
+    static excluirEditora = (req,res)=>{
+        const id = req.params.id
+
+        editoras.findByIdAndDelete(id,(err)=>{
+            if(!err){
+                res.status(200).send({message: `editora excluida com sucesso`})
+            } else {
+                res.status(400).send({message:`Erro ao encontrar editora ${err.message}`})
+            }
+        })
+    }
 
 }
+
+export default EditoraController
